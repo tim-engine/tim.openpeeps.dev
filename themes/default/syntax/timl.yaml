@@ -1,0 +1,207 @@
+# Tim Engine syntax spec for SweetSyntax.
+#
+# Registers under `timl` (this file's basename) and under every extension
+# declared below, so ```timl fenced blocks are highlighted.
+#
+# Tim is an indentation-based DSL that mixes HTML element syntax with a
+# Nim-flavoured scripting language. The spec highlights keywords, type
+# names, strings, numbers and comments, and colours the element DSL
+# (tag names) and the `@directives` apart from ordinary identifiers.
+#
+# The `identifiers` table maps a CSS class suffix to the lexemes that
+# carry it, so `tag: "div"` renders `div` as `<span class="ident tag">`.
+# Repeating a key is fine: every lexeme listed under a suffix gets it.
+
+name: Tim
+extension:
+  - timl
+
+inline_comment: '//'
+block_comment:
+  - '/*'
+  - '*/'
+
+symbols:
+  plus: '+'
+  minus: '-'
+  multiply: '*'
+  divide: '/'
+  modulo: '%'
+  caret: '^'
+  assign: '='
+  eq: '=='
+  ne: '!='
+  lt: '<'
+  lte: '<='
+  gt: '>'
+  gte: '>='
+  amp: '&'
+  andAnd: '&&'
+  pipe: '|'
+  orOr: '||'
+  not: '!'
+  question: '?'
+  colon: ':'
+  comma: ','
+  semiColon: ';'
+  dot: '.'
+  ellipsis: '..'
+  at: '@'
+  dollar: '$'
+  hash: '#'
+  backtick: '`'
+  quote: '"'
+  squote: "'"
+  parl: '('
+  parr: ')'
+  sqbl: '['
+  sqbr: ']'
+  curl: '{'
+  curr: '}'
+
+identifiers:
+  # --- keywords ---
+  if: "if"
+  elif: "elif"
+  else: "else"
+  for: "for"
+  while: "while"
+  in: "in"
+  and: "and"
+  or: "or"
+  not: "not"
+  break: "break"
+  continue: "continue"
+  return: "return"
+  yield: "yield"
+  discard: "discard"
+  case: "case"
+  of: "of"
+  var: "var"
+  const: "const"
+  func: "fn"
+  func: "func"
+  macro: "macro"
+  iterator: "iterator"
+  type: "type"
+  object: "object"
+  echo: "echo"
+  true: "true"
+  false: "false"
+  nil: "nil"
+
+  # --- directives: @import, @javascript, @css, @client, @end, ... ---
+  import: "import"
+  include: "include"
+  directive: "javascript"
+  directive: "css"
+  directive: "client"
+  directive: "static"
+  directive: "view"
+  directive: "end"
+  directive: "statement"
+  directive: "LitElement"
+
+  # --- type names ---
+  typename: "string"
+  typename: "int"
+  typename: "float"
+  typename: "bool"
+  typename: "any"
+  typename: "array"
+  typename: "json"
+  typename: "pointer"
+
+  # --- element DSL tags ---
+  # Tag names that clash with ordinary identifiers (`a`, `b`, `s`, `i`,
+  # `col`, `label`, `title`, `header`, `footer`, `data`, `time`, `path`,
+  # `sub`, ...) are left out on purpose: they read as variables far more
+  # often than as tags.
+  tag: "article"
+  tag: "aside"
+  tag: "blockquote"
+  tag: "body"
+  tag: "br"
+  tag: "button"
+  tag: "canvas"
+  tag: "caption"
+  tag: "circle"
+  tag: "code"
+  tag: "dd"
+  tag: "details"
+  tag: "div"
+  tag: "dl"
+  tag: "dt"
+  tag: "em"
+  tag: "fieldset"
+  tag: "figcaption"
+  tag: "figure"
+  tag: "form"
+  tag: "h1"
+  tag: "h2"
+  tag: "h3"
+  tag: "h4"
+  tag: "h5"
+  tag: "h6"
+  tag: "hgroup"
+  tag: "hr"
+  tag: "html"
+  tag: "iframe"
+  tag: "img"
+  tag: "input"
+  tag: "legend"
+  tag: "li"
+  tag: "link"
+  tag: "main"
+  tag: "mark"
+  tag: "menu"
+  tag: "meta"
+  tag: "nav"
+  tag: "ol"
+  tag: "optgroup"
+  tag: "option"
+  tag: "p"
+  tag: "picture"
+  tag: "polyline"
+  tag: "polygon"
+  tag: "pre"
+  tag: "rect"
+  tag: "script"
+  tag: "section"
+  tag: "select"
+  tag: "small"
+  tag: "span"
+  tag: "strong"
+  tag: "style"
+  tag: "sub"
+  tag: "summary"
+  tag: "sup"
+  tag: "svg"
+  tag: "table"
+  tag: "tbody"
+  tag: "td"
+  tag: "template"
+  tag: "textarea"
+  tag: "tfoot"
+  tag: "th"
+  tag: "thead"
+  tag: "tr"
+  tag: "ul"
+  tag: "video"
+  tag: "wbr"
+
+keyword_scopes:
+  storage.modifier: ["var", "const"]
+  keyword.control: ["if", "elif", "else", "for", "while", "break", "continue", "return", "yield", "discard"]
+  keyword.operator: ["and", "or", "not", "in"]
+  keyword: ["fn", "func", "macro", "iterator", "type", "object", "echo"]
+  constant.language.boolean: ["true", "false"]
+  constant.language.null: ["nil"]
+
+features:
+  regex_literals: false
+  async_await: false
+  generators: false
+  arrow_functions: false
+  template_literals: false
+  labeled_statements: false
