@@ -9,25 +9,25 @@ Macros in Tim Engine can be used to create reusable components, elements or temp
 
 ## Defining and using macros
 Here is an example of a simple macro that generates a button component:
-```
+```timl
 macro PrimaryButton(label: string, url: string) =
   a.btn.btn-primary href=$url: $label
 ```
 
 Calling a macro implies prefixing it with a `@` symbol. For example, to use the `PrimaryButton` macro we defined above, you can do:
-```
+```timl
 @PrimaryButton("Click Me", "https://example.com")
 ```
 
 Another example, this time with a more complex macro that generates a card component:
-```
+```timl
 macro Card(title: string, content: string) =
   div.card
     div.card-header: $title
     div.card-body: $content
 ```
 
-```
+```timl
 for $i in 1..3:
   @Card("Card " & $i, "This is the content of card " & $i)
 ```
@@ -36,14 +36,14 @@ As you can see, macros allow you abstract away complex HTML structures and reuse
 
 ## Macro with trailing statements
 Macros accept trailing statements, which allows you to pass a block of code to the macro. This is useful for creating more flexible components that can accept **varying content**. Here's an example of a macro that generates a Bootstrap column and accepts trailing statements for the content:
-```
+```timl
 macro col(width: int) =
   div.col class="col-lg-" & $width:
     @statement
 ```
 
 Calling this macro with trailing statements would look like this:
-```
+```timl
 @col(6):
   p: "This is some content inside the column."
 ```
@@ -59,7 +59,7 @@ This will generate a Bootstrap column with the specified width and the content:
 
 
 Calling the `col` macro without trailing statements will simply generate an empty column:
-```
+```timl
 @col(6)
 ```
 

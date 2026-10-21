@@ -6,7 +6,7 @@ keywords: ["package", "tim engine", "reusable code", "sharing", "documentation"]
 
 ## Creating a package
 To create a package, you can run the following command and follow the prompts:
-```
+```bash
 tim init
 ```
 

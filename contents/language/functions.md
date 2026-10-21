@@ -8,7 +8,7 @@ keywords: ["functions", "tim engine", "definition", "overloading", "dsl"]
 Functions are reusable blocks of code that perform a specific task. They allow you to organize your code, avoid repetition, and make it more modular and maintainable. In Tim, function names are case-insensitive, so `greet`, `Greet`, and `GREET` would refer to the same function.
 
 You can define functions using the `fn` or `func` keywords, followed by the function name, parameters, return type, and the function body. For example:
-```
+```timl
 fn greet(name: string): string =
   return "Hello, " & $name & "!"
 
@@ -17,14 +17,14 @@ echo greet("Tim Engine")  // Output: Hello, Tim Engine!
 
 ## Function overloading
 Tim Engine supports function overloading, which means you can define multiple functions with the same name but different parameter lists. The correct function will be called based on the arguments passed. For example:
-```
+```timl
 fn greet(name: string, age: int): string =
   return "Hello, " & $name & "!" & " You are " & $age & " years old."
 ```
 
 ## Aliases
 You can define functions using the `fn` or `func` keywords. For example:
-```
+```timl
 fn greet(name: string): string =
   return "Hello, " & $name & "!"
 
@@ -36,7 +36,7 @@ func greet(name: string): string {
 
 ## Mixing with HTML elements
 **HTML elements cannot be defined inside a function body**. Trying to mix HTML elements inside a function body will result in a `CodeGenError`:
-```
+```text
 'HTML' can only be used inside a macro [CodeGenError]
 ```
 

@@ -9,7 +9,7 @@ We are going to cover some basic examples of using Tim Engine to create HTML tem
 
 ## Basic HTML Template
 Here's a simple example of a Tim Engine template that generates a basic HTML page:
-```
+```timl
 html
   title: "Hello, Tim Engine!"
   meta charset="utf-8"
@@ -25,7 +25,7 @@ html
 ```
 
 ## Create a form
-```text
+```timl
 div.mb-3
   label.form-label for="exampleFormControlInput1": "Email address"
   input.form-control type="email" id="exampleFormControlInput1" placeholder="name@example.com"
@@ -37,7 +37,7 @@ div.mb-3
 
 
 ### Create a modal
-```text
+```timl
 div.modal tabindex="-1" > div.modal-dialog > div.modal-content
   div.modal-header
     h5.modal-title: "Modal title"
@@ -51,7 +51,7 @@ div.modal tabindex="-1" > div.modal-dialog > div.modal-content
 
 ### Embed JavaScript
 Tim allows you to embed JavaScript directly within your templates using the `@javascript` block. Here's an example of how to add a click event listener to a button:
-```text
+```timl
 a.btn.btn-primary: "Learn More"
 
 @javascript

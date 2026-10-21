@@ -25,26 +25,26 @@ The system library registers the arithmetic, comparison, assignment and concaten
 ### Type conversion
 
 ##### `toInt`
-```
+```timl
 fn toInt(f: float): int
 ```
 Convert a float to an integer.
 
 ##### `parseInt`
-```
+```timl
 fn parseInt(s: string): int
 ```
 Parse a string into an integer.
 
 ##### `toFloat`
-```
+```timl
 fn toFloat(i: int): float
 fn toFloat(i: json): float
 ```
 Convert an integer or JSON number to a float.
 
 ##### `toBool`
-```
+```timl
 fn toBool(x: int): bool
 fn toBool(x: string): bool
 fn toBool(x: json): bool
@@ -52,7 +52,7 @@ fn toBool(x: json): bool
 Convert a value to a boolean.
 
 ##### `toString`
-```
+```timl
 fn toString(x: int): string
 fn toString(x: float): string
 fn toString(x: bool): string
@@ -62,19 +62,19 @@ fn toString(x: object): string
 Convert a value to its string representation. An object is converted to a JSON string.
 
 ##### `type`
-```
+```timl
 fn type(x: any): string
 ```
 Return the type name of a value as a string.
 
 ##### `jsonType`
-```
+```timl
 fn jsonType(x: json): string
 ```
 Return the type name of a JSON value.
 
 ##### `intVal` / `strVal`
-```
+```timl
 fn intVal(x: json): int
 fn strVal(x: json): string
 ```
@@ -83,7 +83,7 @@ Extract the integer or string value from a JSON value.
 ### Length and index helpers
 
 ##### `len`
-```
+```timl
 fn len(x: string): int
 fn len(x: json): int
 fn len(x: array): int
@@ -91,14 +91,14 @@ fn len(x: array): int
 Return the length of a string, JSON value or array.
 
 ##### `high`
-```
+```timl
 fn high(x: json): int
 fn high(x: array): int
 ```
 Return the highest valid index of a JSON value or array (i.e. `len - 1`).
 
 ##### `inc` / `dec`
-```
+```timl
 fn inc(i: int)
 fn dec(i: int)
 ```
@@ -107,14 +107,14 @@ Increment or decrement an integer in place.
 ### Math functions
 
 ##### `abs`
-```
+```timl
 fn abs(n: int): int
 fn abs(n: float): float
 ```
 Return the absolute value of `n`.
 
 ##### `min` / `max`
-```
+```timl
 fn min(a: int, b: int): int
 fn min(a: float, b: float): float
 fn max(a: int, b: int): int
@@ -123,7 +123,7 @@ fn max(a: float, b: float): float
 Return the smaller / larger of the two values.
 
 ##### `round` / `floor` / `ceil`
-```
+```timl
 fn round(n: float): int
 fn floor(n: float): int
 fn ceil(n: float): int
@@ -131,7 +131,7 @@ fn ceil(n: float): int
 Round `n` to the nearest integer, round down, or round up.
 
 ##### `sqrt`
-```
+```timl
 fn sqrt(n: float): float
 ```
 Return the square root of `n`.
@@ -140,19 +140,19 @@ Return the square root of `n`.
 The `std/system` library provides a minimal set of functions for performing various OS operations, such as reading and writing files, sleeping for a specified duration.
 
 ##### `readFile`
-```
+```timl
 fn readFile(path: string): string
 ```
 Read a file and return its content as a string.
 
 ##### `writeFile`
-```
+```timl
 fn writeFile(path: string, content: string)
 ```
 Write a file with the specified content.
 
 ##### `sleep`
-```
+```timl
 fn sleep(ms: int)
 ```
 Sleep for a specified duration (in milliseconds).
@@ -161,32 +161,32 @@ Sleep for a specified duration (in milliseconds).
 The `std/system` library also includes functions for parsing JSON data, which can be useful for working with APIs or configuration files.
 
 ##### `parseJSON`
-```
+```timl
 fn parseJSON(content: string): json
 ```
 Parse a JSON string and return it as a JSON value.
 
 ##### `loadJSON`
-```
+```timl
 fn loadJSON(path: string): json
 ```
 Load JSON data from a file and return it as a JSON value.
 
 ##### `remoteJSON`
-```
+```timl
 fn remoteJSON(url: string): json
 ```
 Load JSON data from a remote URL and return it as a JSON value. This function performs an HTTP GET request to the specified URL and parses the response as JSON.
 
 ##### `fetch`
-```
+```timl
 fn fetch(url: string): json
 fn fetch(url: string, options: json): json
 ```
 Perform an HTTP request and return the response as JSON. The `options` object can carry request settings.
 
 ##### `hasKey`
-```
+```timl
 fn hasKey(obj: json, key: string): bool
 ```
 Check if a JSON object contains the given key.
@@ -194,7 +194,7 @@ Check if a JSON object contains the given key.
 ### Random
 
 ##### `shuffle`
-```
+```timl
 fn shuffle(arr: array): array
 ```
 Return a new array with the elements in random order.
@@ -202,13 +202,13 @@ Return a new array with the elements in random order.
 ### Output
 
 ##### `echo`
-```
+```timl
 fn echo(x: string | int | float | bool | json | nil | object | array | pointer)
 ```
 Print a value to the standard output.
 
 ##### `assert`
-```
+```timl
 fn assert(condition: bool)
 ```
 Assert that a condition is true; raises an error if it is not.
@@ -216,13 +216,13 @@ Assert that a condition is true; raises an error if it is not.
 ### HTML escaping
 
 ##### `escape`
-```
+```timl
 fn escape(s: string): string
 ```
 Escape HTML special characters in `s` (`&`, `<`, `>`, `"`, `'`).
 
 ##### `unescape`
-```
+```timl
 fn unescape(s: string): string
 ```
 Decode HTML entities back into their original characters.

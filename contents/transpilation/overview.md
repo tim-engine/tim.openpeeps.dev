@@ -29,14 +29,14 @@ The front-end migration process can be a daunting task. Having your front-end lo
 
 ### JavaScript
 Transpiling a Tim template to JavaScript is straightforward. Here, we have a simple Tim template that includes a variable and some HTML elements:
-```
+```timl
 div.container
   var name = "Tim Engine is Awesome!"
   p: $name
 ```
 
 Now, using the `src` command, we can pass `--ext:js` to specify the target language for transpilation:
-```text
+```bash
 tim src example.timl --ext:js
 ```
 
@@ -62,7 +62,7 @@ As you can see from the example, the Tim template is transpiled into a JavaScrip
 
 ### Nim language
 Transpiling the same template into Nim is possible with the `--ext:nim` flag:
-```text
+```bash
 tim src example.timl --ext:nim
 ```
 

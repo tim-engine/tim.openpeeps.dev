@@ -8,7 +8,7 @@ Tim Engine's syntax is indentation-based, similar to **Nim**, **Ruby** or **Pyth
 
 ## Quick Example
 Here is a simple example of Tim syntax for a basic HTML structure using **Bootstrap 5**:
-```
+```timl
 div.container > div.row > div.col-12
   h1.display-4.fw-bold: "Welcome to Tim Engine!"
   p.lead: "Tim Engine is a powerful templating engine and scripting language for developers."
@@ -27,10 +27,10 @@ div.container > div.row > div.col-12
 
 ### Element multiplication
 The `tag*N` syntax repeats an HTML element `N` times and injects a 0-based `$i` index variable you can use inside the element:
-```
+```timl
 li*3: "Item"
 ```
-```
+```timl
 ul
   li*3: $items[$i]
 ```
@@ -38,7 +38,7 @@ This produces three `<li>` elements. Inside the repeated element, `$i` holds the
 
 ### Input type shorthand
 For `<input>` elements, the colon shorthand is used to set the `type` attribute when there is no whitespace before the colon:
-```
+```timl
 input:time
 input:color
 input:range
@@ -72,7 +72,7 @@ Tim Engine features a **strongly-typed data model**, supporting primitive types 
 
 
 ### Reserved keywords
-```
+```timl
 if, elif, else, for, while, in, and, or, var, const,
 fn, func, macro, iterator, return, yield, break,
 echo, type, object, nil, true, false
@@ -101,13 +101,13 @@ Range `..` is parsed as an iterator call. Equality/identity helpers `is(a, b)` a
 ### Comments
 
 #### Single-line `//`
-```
+```timl
 // This is a comment
 div.container  // inline comment
 ```
 
 #### Block `/* */`
-```
+```timl
 /*
   Documentation comment
   Transpiled to HTML <!-- comment -->
@@ -117,7 +117,7 @@ div.container  // inline comment
 ### Directives
 
 #### `@javascript` / `@css` — with minification
-```
+```timl
 @javascript
   console.log("Hello, World!")
 @end
@@ -128,14 +128,14 @@ div.container  // inline comment
 ```
 
 #### `@html` — raw HTML (no escaping)
-```
+```timl
 @html
   <custom>raw html here</custom>
 @end
 ```
 
 #### `@client` — SPA-aware block
-```
+```timl
 @client
   // client-side only content
 @end
@@ -143,15 +143,15 @@ div.container  // inline comment
 
 #### `@static` — compile-time evaluator
 The `@static` block is a compile-time evaluator for `for` loops and `if`/`elif`/`else` conditionals. The body is captured, `{$varName}` / `$varName` patterns are substituted with literal iteration values, and the result is re-parsed and inlined into the parent AST at compile time:
-```
+```timl
 @static for $x in ["a", "b", "c"]:
   p: "Value: {$x}"
 ```
-```
+```timl
 @static for $i in 1..3:
   p: "Item $i"
 ```
-```
+```timl
 @static if true:
   div.yes
 else:
@@ -163,7 +163,7 @@ else:
 
 #### `@LitElement` — custom elements
 `@LitElement, ClassName` defines a Lit-style custom HTML element. The tag name is derived from the class name (converted to kebab-case). The body supports `@javascript` blocks (concatenated into the class body) and a single `@client` block (the render template):
-```
+```timl
 @LitElement, MyButton
   @javascript
     static get properties() { return { label: String }; }
@@ -175,7 +175,7 @@ else:
 This generates a JavaScript class extending `LitElement` with `connectedCallback`, `render()`, and a `customElements.define('my-button', MyButton)` call. Client-side only; server-side rendering emits the class as a `<script>` block.
 
 #### `@view` — layout placeholder
-```
+```timl
 body
   div.container
     @view

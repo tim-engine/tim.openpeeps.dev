@@ -10,7 +10,7 @@ Tim Engine ships with a built-in HTTP server powered by [Supranim](https://githu
 
 Create a `tim.config.yml` in your project, then run:
 
-```
+```bash
 tim serve tim.config.yml
 ```
 
@@ -93,7 +93,7 @@ Inside your templates you can access the current HTTP request through `$this` us
 | `$this.getConfig()` | The resolved engine configuration as JSON |
 
 Example:
-```
+```timl
 p: "You requested $this.getPath()"
 ```
 
@@ -134,6 +134,6 @@ The `src` command (the default command, so `tim file.timl` works) supports the f
 
 The `ast` command serializes a template into an AST representation written next to the source file:
 
-```
+```bash
 tim ast example.timl
 ```

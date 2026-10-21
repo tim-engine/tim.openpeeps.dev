@@ -25,6 +25,6 @@ The CLI ships with the following package commands:
 
 ### Developing packages
 When developing a package, you can create a symbolic link from your package directory to the `~/.tim/packages` directory. This allows you to test your package locally without having to publish it. For example:
-```
+```bash
 ln -s /path/to/your/package ~/.tim/packages/your-package
 ```

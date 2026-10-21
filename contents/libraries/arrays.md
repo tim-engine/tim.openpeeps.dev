@@ -8,13 +8,13 @@ Arrays in Tim Engine represents a collection of values that can be of any type, 
 
 ## Creating arrays
 You can create an array using the `[]` syntax. For example:
-```
+```timl
 var fruits = ["apple", "banana", "cherry"]
 ```
 
 ## Accessing array elements
 You can access individual elements of an array using their index, which starts at 0. For example:
-```
+```timl
 echo fruits[0]  // Output: apple
 echo fruits[1]  // Output: banana
 ```
@@ -23,67 +23,67 @@ echo fruits[1]  // Output: banana
 The `std/arrays` library provides various functions for manipulating arrays, such as adding, removing, and sorting elements. Here is the list of available functions in the `std/arrays` library:
 
 ##### `add`
-```
+```timl
 fn add(s: array, item: any)
 ```
 Append a new item to the end of an array. The array is modified in place.
 
 ##### `insert`
-```
+```timl
 fn insert(s: array, item: any, offset: int)
 ```
 Insert an item into an array at a specific index. The array is modified in place.
 
 ##### `delete`
-```
+```timl
 fn delete(s: array, offset: int)
 ```
 Delete an item from an array at a specific index. The array is modified in place.
 
 ##### `contains`
-```
+```timl
 fn contains(arr: array, x: string): bool
 ```
 Check if an array contains a specific value.
 
 ##### `find`
-```
+```timl
 fn find(s: array, item: any): int
 ```
 Return the index of the first occurrence of `item` in the array, or `-1` if it is not found.
 
 ##### `join`
-```
+```timl
 fn join(s: array): string
 ```
 Join the elements of an array of strings into a single string, separated by `", "`.
 
 ##### `dedup`
-```
+```timl
 fn dedup(s: array)
 ```
 Remove duplicate values from an array (by value). The array is modified in place.
 
 ##### `isEmpty`
-```
+```timl
 fn isEmpty(arr: array): bool
 ```
 Check if the array has no elements.
 
 ##### `first`
-```
+```timl
 fn first(arr: array): any
 ```
 Return the first element of the array.
 
 ##### `last`
-```
+```timl
 fn last(arr: array): any
 ```
 Return the last element of the array.
 
 ##### `reverse`
-```
+```timl
 fn reverse(arr: array): array
 ```
 Return a new array with the elements in reversed order.

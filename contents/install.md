@@ -8,7 +8,7 @@ description: "Install Tim Engine on your system using various methods"
 To install Tim Engine, you can use `nimble` to build from source. Check the Nim [installation guide](https://nim-lang.org/install.html) if you don't have Nim installed.
 
 Once you have Nim installed, you can run the following command to install Tim Engine:
-```
+```bash
 nimble install tim
 ```
 
@@ -19,7 +19,7 @@ You can download pre-built binaries for your platform from the [releases page](h
 
 ## Use Tim for Node.js
 If you prefer to use Tim Engine from your Node/Bun projects, you can install the `@openpeeps/tim` native add-on package from npm:
-```
+```bash
 npm install @openpeeps/tim
 ```
 

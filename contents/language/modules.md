@@ -8,14 +8,14 @@ Modules are a way to organize your code into separate files and namespaces. Like
 
 ## Importing local modules
 To import a module in Tim Engine, you can use the `@import` statement followed by a stringified path to the module file. For example:
-```
+```timl
 @import "utils"
 @import "../some/other/utils"
 ```
 
 ## Standard library modules
 Tim Engine comes with a [standard library](/libraries) that provides a wide range of built-in functions and modules for common tasks. You can import standard library modules using the `@import` statement with the module name. For example:
-```
+```timl
 @import "std/json"
 ```
 
@@ -31,7 +31,7 @@ The `system` module is always available without an explicit import. The math, ti
 
 ## External packages
 If you have installed external packages using the package manager, you can import modules from those packages as well. The syntax is the same as importing local modules, but you need to prefix the import path with the `pkg` keyword. For example:
-```
+```timl
 @import "pkg/bootstrap/grid"
 ```
 

@@ -8,43 +8,43 @@ The `std/json` library provides functions for serializing and working with JSON 
 
 To use the library, import it explicitly:
 
-```
+```timl
 @import "std/json"
 ```
 
 ##### `join`
-```
+```timl
 fn join(s: json, sep: string = ", "): string
 ```
 Join the elements of a JSON array of strings into a single string, separated by `sep`.
 
 ##### `keys`
-```
+```timl
 fn keys(obj: json): json
 ```
 Return an array of the object's property keys.
 
 ##### `values`
-```
+```timl
 fn values(obj: json): json
 ```
 Return an array of the object's property values.
 
 ##### `pretty`
-```
+```timl
 fn pretty(obj: json): string
 ```
 Return a pretty-printed (indented) representation of the JSON value.
 
 ##### `get`
-```
+```timl
 fn get(obj: json, key: string, default: json): json
 ```
 Return the value of `key` in the object, or `default` if the key does not exist.
 
 ## Examples
 
-```
+```timl
 @import "std/json"
 
 var data = parseJSON("{\"name\": \"Alice\", \"age\": 30}")

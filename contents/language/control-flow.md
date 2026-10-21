@@ -6,7 +6,7 @@ keywords: ["control flow", "tim engine", "if statements", "loops", "documentatio
 
 ## If statements
 If statements allow you to execute a block of code based on a condition. In Tim Engine, you can use `if`, `elif`, and `else` to create conditional statements. For example:
-```
+```timl
 var fruits = ["apple", "banana", "cherry", "apricot", "avocado"]
 if $fruits[0] == "apple":
   p: "This is an apple."
@@ -19,7 +19,7 @@ else:
 ## For loops
 For loops allow you to iterate over a sequence of values. In Tim Engine, you can use the `for` keyword to create a for loop. 
 
-```
+```timl
 var fruits = ["apple", "banana", "cherry"]
 for $fruit in $fruits:
   p: "I like " & $fruit
@@ -27,14 +27,14 @@ for $fruit in $fruits:
 
 ## For in range
 Here is an example using the `..` operator to create a range of numbers:
-```
+```timl
 for $i in 0..5:
   p: "The value of i is " & $i
 ```
 
 ## While loops
 While loops allow you to execute a block of code as long as a condition is true. In Tim Engine, you can use the `while` keyword to create a while loop. For example:
-```
+```timl
 var count: int = 0
 while $count < 5:
   p: "Count is " & $count
@@ -43,7 +43,7 @@ while $count < 5:
 
 ## Break
 You can use `break` to exit a loop early. For example:
-```
+```timl
 var count: int = 0
 while $count < 10 {
   if $count == 5:

@@ -9,7 +9,7 @@ and manipulate data in a structured way. The `std/objects` library provides func
 
 ## Creating Objects
 You can create an object using the curly braces `{}` syntax, just like in many other programming languages (e.g., JavaScript). For example:
-```
+```timl
 var person = {
   name: "Alice",
   age: 30,
@@ -22,7 +22,7 @@ In this example, we create an object `person` with three properties: `name`, `ag
 
 ### Accessing Object Properties
 You can access the properties of an object using dot notation. For example:
-```
+```timl
 p: $person.name       // outputs "Alice"
 p: $person.age        // outputs 30
 p: $person.isStudent  // outputs false
@@ -34,7 +34,7 @@ p: $person.isStudent  // outputs false
 
 ### Nested Objects
 Objects can also contain other objects as properties, allowing you to create complex data structures. For example:
-```
+```timl
 var company = {
   name: "Tech Corp",
   employees: {
@@ -52,7 +52,7 @@ var company = {
 
 ### Nested Arrays
 Objects can also contain arrays as properties, which can be useful for storing lists of data. For example:
-```
+```timl
 var team = {
   name: "Development Team",
   members: [
@@ -71,7 +71,7 @@ var team = {
 ### Iterating Over Object Properties
 You can inspect an object's properties using the `keys` and `values` functions from the `std/objects` library:
 
-```
+```timl
 @import "std/objects"
 
 var person = { name: "Alice", age: 30 }
@@ -86,37 +86,37 @@ echo values($person)  // Output: ["Alice", 30]
 The `std/objects` library provides functions for working with objects in your templates and scripts:
 
 ##### `hasKey`
-```
+```timl
 fn hasKey(obj: object, key: string): bool
 ```
 Check if the object contains the given property key.
 
 ##### `len`
-```
+```timl
 fn len(obj: object): int
 ```
 Return the number of properties in the object.
 
 ##### `isEmpty`
-```
+```timl
 fn isEmpty(obj: object): bool
 ```
 Check if the object has no properties.
 
 ##### `clear`
-```
+```timl
 fn clear(obj: object)
 ```
 Remove all properties from the object. The object is modified in place.
 
 ##### `keys`
-```
+```timl
 fn keys(obj: object): array
 ```
 Return an array of the object's property keys.
 
 ##### `values`
-```
+```timl
 fn values(obj: object): array
 ```
 Return an array of the object's property values.

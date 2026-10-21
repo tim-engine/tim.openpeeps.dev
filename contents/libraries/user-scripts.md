@@ -30,6 +30,6 @@ timEngine.userScript.addProc(
 
 Calling this from a `.timl` script would look like this:
 
-```
+```timl
 echo hello("Tim") // Output: Hello, Tim!
 ```
