@@ -1,5 +1,6 @@
 metadata:
   logo: "https://raw.githubusercontent.com/tim-engine/tim/main/.github/timV2.png"
+  url: tim.openpeeps.dev
   logo_keep_gradient: true
   title: "Tim Engine Documentation"
   description: "Documentation page for Tim Engine - a powerful template engine and scripting language for developers."
@@ -63,8 +64,21 @@ content:
       url: "https://github.com/copilot/"
       description: "Ask Copilot about this page"
 
+routes:
+  - path: "/playground"
+    view: "playground"
+    layout: "playground"
+    title: "Playground"
 
+assets:
+  bundle: true
+  css: ["app.css", "sweetsyntax.css", "style.css"]
+  js: ["app.js"]
+  mangle: false
+  sourcemap: false
 navbar:
+  - title: "Playground"
+    url: "/playground"
   - title: "GitHub Repository"
     url: "https://github.com/tim-engine/tim"
     icon: ""

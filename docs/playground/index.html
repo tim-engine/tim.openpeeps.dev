@@ -1,0 +1,155 @@
+<!DOCTYPE html><html data-bs-theme="dark" data-theme-default="system"><head><meta charset="utf-8"><title>Playground &mdash; Tim Engine Documentation</title><meta name="viewport" content="width=device-width, initial-scale=1"><script>{(function(){try{var root=document.documentElement;var stored=null;try{stored=localStorage.getItem('booyaka-theme');}catch(e){};var configured=root.getAttribute('data-theme-default')||'system';var theme=stored;if(theme!=='light'&&theme!=='dark'){if(configured==='light'||configured==='dark'){theme=configured;}else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches){theme='light';}else{theme='dark';}};root.setAttribute('data-bs-theme',theme);}catch(e){}})();}
+</script><link rel="icon" href="/assets/favicon-32x32.png" type="image/x-icon"><link rel="stylesheet" href="/assets/bootstrap.min.css"><link rel="stylesheet" href="/assets/app.css"><link rel="stylesheet" href="/assets/sweetsyntax.css"><link rel="stylesheet" href="/assets/style.css"><link rel="stylesheet" href="/assets/print.css" media="print"><style>
+body:before {
+  content: "";
+  display: block;
+  background-image: url("/assets/image.png");
+  background-repeat: repeat;
+  background-size: 257px auto;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 99999;
+  opacity: 0.3;
+}
+      </style></head><body><div class="container-fluid"><div class="row"><style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; overflow: hidden; }
+  body { background: #1e1e1e; display: flex; flex-direction: column; }
+
+  .editor-header {
+    background: #252526;
+    border-bottom: 1px solid #3c3c3c;
+    padding: 6px 16px;
+    flex-shrink: 0;
+  }
+
+  .logo-img { height: 42px; width: auto; }
+  .brand-text { font-size: 17px; font-weight: 700; color: #e0e0e0; letter-spacing: -0.3px; }
+  .brand-sub { font-size: 11px; color: #888; }
+
+  .panel-header {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #777;
+    padding: 0 12px;
+    background: #252526;
+    border-bottom: 1px solid #3c3c3c;
+    user-select: none;
+    flex-shrink: 0;
+  }
+
+  #editor { width: 100%; height: 100%; font-size: 13.5px; }
+
+  #console {
+    background: #1a1a1a;
+    font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Consolas', 'SF Mono', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    padding: 12px 14px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: #c0c0c0;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  #preview {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #fff;
+    display: block;
+  }
+
+  .logs-panel {
+    height: 30%;
+    min-height: 140px;
+    flex-shrink: 0;
+    border-top: 1px solid #3c3c3c;
+  }
+
+  .console-line { display: flex; gap: 8px; }
+  .console-prompt { color: #4ec9b0; flex-shrink: 0; }
+  .console-output { color: #d4d4d4; }
+
+  .toolbar-btn {
+    background: #2d2d2d;
+    border: 1px solid #3c3c3c;
+    color: #ccc;
+    padding: 3px 14px;
+    border-radius: 4px;
+    font-size: 12.5px;
+    transition: all 0.12s;
+    line-height: 1.6;
+  }
+  .toolbar-btn:hover {
+    background: #3c3c3c;
+    border-color: #4c4c4c;
+    color: #fff;
+  }
+  .toolbar-btn.run-btn {
+    background: #177a3a;
+    border-color: #249c4e;
+    color: #fff;
+  }
+  .toolbar-btn.run-btn:hover { background: #1f8f47; }
+
+  #splitter {
+    width: 4px;
+    background: #2d2d2d;
+    cursor: col-resize;
+    flex-shrink: 0;
+    transition: background 0.15s;
+  }
+  #splitter:hover, #splitter.active { background: #4ec9b0; }
+
+  .main-content.is-dragging #preview { pointer-events: none; }
+  .main-content.is-dragging { user-select: none; }
+
+  .output-panel { width: 780px; flex-shrink: 0; border-left: 1px solid #3c3c3c; }
+
+  @media (max-width: 768px) {
+    .main-content { flex-direction: column !important; }
+    .output-panel { width: 100% !important; border-left: none !important; border-top: 1px solid #3c3c3c; }
+    #editor { min-height: 50vh; }
+    #preview { min-height: 40vh; }
+    .logs-panel { height: auto; }
+    #console { min-height: 30vh; }
+    #splitter { display: none; }
+  }
+  .auto-compile {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+    color: #ccc;
+    cursor: pointer;
+    user-select: none;
+    padding: 3px 6px;
+  }
+  .auto-compile input { accent-color: #249c4e; margin: 0; }
+  .editor-bar { display: flex; align-items: center; gap: 14px; }
+  .editor-bar .example-tabs {
+    display: flex;
+    gap: 2px;
+    overflow-x: auto;
+  }
+  .example-tab {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: #888;
+    font-size: 1.5em;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .example-tab:hover { color: #ccc; }
+  .example-tab.active { color: #e0e0e0; border-bottom-color: #4ec9b0; }
+</style><div class="col-12"><div class="card mt-3 rounded-top-4 overflow-hidden"><div class="editor-header d-flex align-items-center justify-content-between"><div class="d-flex align-items-center gap-2"><a class="navbar-brand"><img src="https://raw.githubusercontent.com/tim-engine/tim/main/.github/timV2.png"><em></em></a><span class="brand-text">Tim Engine</span><span>Playground</span></div><div class="d-flex align-items-center gap-2"><label class="auto-compile"><input type="checkbox" id="autoCompile" checked="checked"> Auto-compile</label><button id="runBtn" class="btn btn-danger py-0 btn-sm rounded-3">Compile</button><button id="clearBtn" class="btn btn-secondary py-0 btn-sm rounded-3">Clear</button></div></div><div class="d-flex flex-grow-1 overflow-hidden main-content vh-100"><div class="d-flex flex-column flex-grow-1 overflow-hidden"><div class="panel-header editor-bar"><div id="exampleTabs" class="example-tabs"></div></div><div id="editor" class="flex-grow-1"></div></div><div id="splitter"></div><div class="d-flex flex-column output-panel overflow-hidden"><div class="panel-header">Output</div><div class="flex-grow-1 overflow-hidden"><iframe id="preview" sandbox=""></iframe></div><div class="logs-panel d-flex flex-column overflow-hidden"><div class="panel-header">Logs</div><div id="console" class="flex-grow-1 overflow-hidden"></div></div></div></div></div></div><script id="example1" type="text/application+json">{"title":"Hello","source":"// Tim playground - live in your browser via tim.wasm (no backend)\nhead\n  meta charset=\"utf-8\"\n  meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"\n  title: \"Tim Engine is Awesome!\"\n  link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.9/dist/css/bootstrap.min.css\" rel=\"stylesheet\"\nbody\n  div.container > div.row.vh-100.align-items-center > div.col-lg-4.mx-auto.text-center\n    h1.fw-bold: \"Tim Engine is Awesome!\"\n    p: \"Edit the template - output updates as you type.\"\n    ul.list-inline\n      for $item in [\"views\", \"layouts\", \"partials\"]:\n        li: $item\n  script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.9/dist/js/bootstrap.bundle.min.js\""}</script></div><footer class="row mb-4"><div class="col-12 text-center opacity-50"><small><small><p class="mt-4 mb-0">Powered by <a href="https://github.com/openpeeps/booyaka">Booyaka</a> &mdash; Made by Humans from <a href="https://openpeeps.dev">OpenPeeps</a></p><p class="mb-0">2026 &copy; OpenPeeps & Contributors | AGPLv3 License</p></small></small></div></footer></div><script type="text/javascript" src="/assets/app.js"></script><script src="https://cdn.jsdelivr.net/npm/ace-builds@1.36.2/src-noconflict/ace.js"></script><script type="text/javascript" src="/assets/tim.js"></script><script type="text/javascript" src="/assets/mode-tim.js"></script><script type="text/javascript" src="/assets/theme-tim.js"></script><script>{document.addEventListener('DOMContentLoaded',function(){var editor=ace.edit('editor',{theme:'ace/theme/dfkup',mode:'ace/mode/dfkup',fontSize:13.5,tabSize:2,useSoftTabs:true,showPrintMargin:false,wrap:true,indentedSoftWrap:false,selectionStyle:'text'});var examples=[];var exampleScripts=document.querySelectorAll('script[type="text/application+json"]');exampleScripts.forEach(function(el){try{examples.push(JSON.parse(el.textContent))}catch(e){}});if(examples.length===0){examples.push({title:'Blank',source:'h1: "Hello, Tim!"'})};var tabsEl=document.getElementById('exampleTabs');function selectExample(i){var btns=tabsEl.querySelectorAll('.example-tab');btns.forEach(function(b,j){b.classList.toggle('active',i===j)});editor.setValue(examples[i].source,-1)};examples.forEach(function(ex,i){var btn=document.createElement('button');btn.className='example-tab'+(i===0?' active':'');btn.textContent=ex.title;btn.addEventListener('click',function(){selectExample(i)});tabsEl.appendChild(btn)});editor.setValue(examples[0].source,-1);editor.focus();editor.commands.addCommand({name:'runTim',bindKey:{win:'Ctrl-Enter',mac:'Command-Enter'},exec:function(){runTim()}});var autoCompile=document.getElementById('autoCompile');var compileTimer=0;editor.on('change',function(){if(!autoCompile.checked)return;clearTimeout(compileTimer);compileTimer=setTimeout(runTim,400)});var consoleEl=document.getElementById('console');var runBtn=document.getElementById('runBtn');var preview=document.getElementById('preview');var tim=null;function writeOutput(text){var line=document.createElement('div');line.className='console-line';line.innerHTML='<span class="console-prompt">></span><span class="console-output">'+String(text).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</span>';consoleEl.appendChild(line);consoleEl.scrollTop=consoleEl.scrollHeight};writeOutput('loading tim.wasm ...');runBtn.disabled=true;runBtn.style.opacity='0.5';function runTim(){if(!tim){writeOutput('tim.wasm is still loading ...');return};var t0=performance.now();var res=tim.renderView(editor.getValue(),'{}','{}');var ms=(performance.now()-t0).toFixed(1);if(res.code!==0){writeOutput('Error ('+ms+' ms): '+res.out)}else{preview.srcdoc=res.out;writeOutput('ok ('+ms+' ms, '+res.out.length+' chars)')}};TimWasm.loadTimUrl('/assets/tim.wasm').then(function(t){tim=t;var v=tim.version();if(v.code===0){writeOutput('tim '+v.out+' (wasm) ready')}else{writeOutput('version error: '+v.out)};runBtn.disabled=false;runBtn.style.opacity='1';clearTimeout(compileTimer);runTim()}).catch(function(e){writeOutput('Could not load /assets/tim.wasm: '+e)});runBtn.addEventListener('click',runTim);document.getElementById('clearBtn').addEventListener('click',function(){consoleEl.innerHTML='';preview.srcdoc='';writeOutput('ready')});var splitter=document.getElementById('splitter');var outputPanel=document.querySelector('.output-panel');var mainContent=document.querySelector('.main-content');var isDragging=false;splitter.addEventListener('mousedown',function(e){isDragging=true;splitter.classList.add('active');mainContent.classList.add('is-dragging');e.preventDefault()});document.addEventListener('mousemove',function(e){if(!isDragging)return;var containerRect=mainContent.getBoundingClientRect();var newWidth=containerRect.right-e.clientX-2;if(newWidth<200)newWidth=200;if(newWidth>containerRect.width-300)newWidth=containerRect.width-300;outputPanel.style.width=newWidth+'px'});document.addEventListener('mouseup',function(){if(isDragging){isDragging=false;splitter.classList.remove('active');mainContent.classList.remove('is-dragging')}});window.addEventListener('resize',function(){editor.resize()})})}
+</script></body></html>

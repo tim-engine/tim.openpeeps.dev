@@ -3,7 +3,8 @@
    page is styled even before JS resolves the theme. Light overrides flip
    per `html[data-bs-theme="light"]` (set from `appearance.default_theme`,
    persisted choice, or the OS preference).
-   Code blocks (`pre`, see `sweetsyntax.css`) intentionally stay dark in both themes.
+   Code blocks (`pre`, see `sweetsyntax.css`) adapt to the active theme
+   through the `--booyaka-code-*` tokens below.
    ========================================================================== */
 :root,
 html[data-bs-theme="dark"] {
@@ -44,10 +45,16 @@ html[data-bs-theme="dark"] {
   --booyaka-selection-fg: #ffffff;
   --booyaka-mark-bg: rgba(46, 255, 147, 0.4);
 
-  /* dark code islands (identical in both themes) */
+  /* fenced code blocks (token colors flip per theme, see `sweetsyntax.css`) */
   --booyaka-code-bg: rgba(0, 0, 0, .5);
   --booyaka-code-fg: #dedede;
   --booyaka-code-border: #222;
+  --booyaka-code-comment: #777;
+  --booyaka-code-string: #ff6868;
+  --booyaka-code-number: #ab875d;
+  --booyaka-code-punct: #78b0e8;
+  --booyaka-code-keyword: #ff6868;
+  --booyaka-code-copied: #7ee2a8;
 
   /* alerts */
   --booyaka-alert-icon: #ffffffa8;
@@ -175,6 +182,17 @@ html[data-bs-theme="light"] {
   --booyaka-selection-fg: #111;
   --booyaka-mark-bg: #fff3cd;
 
+  /* fenced code blocks adapt to the light theme */
+  --booyaka-code-bg: #f6f8fa;
+  --booyaka-code-fg: #1f2328;
+  --booyaka-code-border: #d0d7de;
+  --booyaka-code-comment: #6e7781;
+  --booyaka-code-string: #0a3069;
+  --booyaka-code-number: #0550ae;
+  --booyaka-code-punct: #0550ae;
+  --booyaka-code-keyword: #cf222e;
+  --booyaka-code-copied: #1a7f37;
+
   /* alerts */
   --booyaka-alert-icon: rgba(0, 0, 0, 0.45);
   --booyaka-alert-info-fg: #055160;
@@ -300,7 +318,7 @@ img {
   max-width: 100%;
 }
 
-/* Style for pre code blocks (dark islands in both themes) */
+/* Style for pre code blocks (theme-adaptive via --booyaka-code-*) */
 pre {
   font-family: 'CommitMono';
   -moz-osx-font-smoothing: grayscale;
@@ -612,7 +630,7 @@ mark {
 }
 
 /* Backend code highlighting lives in `sweetsyntax.css`
-   (SweetSyntax token classes). Code blocks stay dark islands. */
+   (SweetSyntax token classes, theme-adaptive). */
 
 
 /* Page reference card (@<page>.md) */
