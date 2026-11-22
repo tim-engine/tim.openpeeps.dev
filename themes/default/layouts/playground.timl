@@ -240,7 +240,7 @@ body:before {
           }
         }
 
-        TimWasm.loadTimUrl('/assets/tim.wasm').then(function(t) {
+        TimWasm.loadTimUrl('/assets/tim-0.2.11-2211.wasm').then(function(t) {
           tim = t
           var v = tim.version()
           if (v.code === 0) {
