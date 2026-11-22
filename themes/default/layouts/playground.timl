@@ -1,0 +1,301 @@
+const themeDefault = toString($this["config"]["appearance"]["default_theme"])
+html data-bs-theme="dark" data-theme-default=$themeDefault
+  head
+    meta charset="utf-8"
+    title: $this["markdown"]["meta"]["title"] & " &mdash; " & $this["config"]["metadata"]["title"]
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    // Resolves the effective theme before first paint: persisted choice,
+    // then `appearance.default_theme`, then the OS preference. Runs before
+    // the stylesheets below so there is no dark-to-light flash.
+    @javascript
+    {
+      (function () {
+        try {
+          var root = document.documentElement;
+          var stored = null;
+          try { stored = localStorage.getItem('booyaka-theme'); } catch (e) {}
+          var configured = root.getAttribute('data-theme-default') || 'system';
+          var theme = stored;
+          if (theme !== 'light' && theme !== 'dark') {
+            if (configured === 'light' || configured === 'dark') {
+              theme = configured;
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+              theme = 'light';
+            } else {
+              theme = 'dark';
+            }
+          }
+          root.setAttribute('data-bs-theme', theme);
+        } catch (e) {}
+      })();
+    }
+    @end
+    link rel="icon" href="/assets/favicon-32x32.png" type="image/x-icon"
+    link rel="stylesheet" href="/assets/bootstrap.min.css"
+    link rel="stylesheet" href="/assets/app.css"
+    link rel="stylesheet" href="/assets/sweetsyntax.css"
+    link rel="stylesheet" href="/assets/style.css"
+    link rel="stylesheet" href="/assets/print.css" media="print"
+
+    const bgNoise = toFloat($this["config"]["appearance"]["background_noise_opacity"])
+    if $bgNoise > 0:
+      style: """
+body:before {
+  content: "";
+  display: block;
+  background-image: url("/assets/image.png");
+  background-repeat: repeat;
+  background-size: 257px auto;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 99999;
+  opacity: """ & $bgNoise & """;
+}
+      """
+
+  body
+    div.container-fluid
+      div.row
+        // The `@view` macro is a special macro that injects
+        // the content of the specific view into this layout.
+        @view
+      footer.row.mb-4 > div.col-12.text-center.opacity-50 > small > small
+        p.mt-4.mb-0: "Powered by "
+          a href="https://github.com/openpeeps/booyaka": "Booyaka"
+          " &mdash; Made by Humans from "
+          a href="https://openpeeps.dev": "OpenPeeps"
+        p.mb-0: $this["currentYear"] & " &copy; OpenPeeps & Contributors | AGPLv3 License"
+
+    script type="text/javascript" src="/assets/app.js"
+    script src="https://cdn.jsdelivr.net/npm/ace-builds@1.36.2/src-noconflict/ace.js"
+    script type="text/javascript" src="/assets/tim.js"
+    script type="text/javascript" src="/assets/mode-tim.js"
+    script type="text/javascript" src="/assets/theme-tim.js"
+
+    if $this["config"]["content"]["lazyload_iframes"] or
+       $this["config"]["content"]["lazyload_videos"] or
+       $this["config"]["content"]["lazyload_images"]:
+      @javascript
+      {
+        UI.onReload(() => {
+          const lazyMedia = document.querySelectorAll('iframe[data-src], video[data-src], audio[data-src], source[data-src], img[data-src]');
+          const loadMedia = (el) => {
+            setTimeout(() => {
+              el.src = el.dataset.src;
+              el.removeAttribute('data-src');
+            }, 150);
+          };
+          if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries, obs) => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  loadMedia(entry.target);
+                  obs.unobserve(entry.target);
+                }
+              });
+            }, { rootMargin: '200px' });
+            lazyMedia.forEach(el => observer.observe(el));
+          } else {
+            lazyMedia.forEach(loadMedia);
+          }
+        });
+      }
+      @end
+
+    // Connects to the Watchout server to listen
+    // for file changes and reloads the page when a change is detected.
+    if $app["isDev"] == true:
+      @javascript
+      {
+        function connectWatchoutServer() {
+          const watchout = new WebSocket("ws://127.0.0.1:9000");
+          watchout.addEventListener('message', (e) => {
+            if(e.data == '1') location.reload()
+          });
+
+          watchout.addEventListener('close', () => {
+            setTimeout(() => {
+              console.log('Watchout WebSocket is closed. Try again...')
+              connectWatchoutServer()
+            }, 300)
+          })
+        }
+        connectWatchoutServer()
+      }
+      @end
+
+    if $app["enableMarkdownSync"] == true:
+      @javascript
+      {
+        function connectWatchoutServer() {
+          const watchout = new WebSocket("http://127.0.0.1:3000/ws");
+          watchout.addEventListener('message', (e) => {
+            if(e.data == '1') location.reload()
+          });
+
+          watchout.addEventListener('close', () => {
+            setTimeout(() => {
+              console.log('Watchout WebSocket is closed. Try again...')
+              connectWatchoutServer()
+            }, 300)
+          })
+        }
+        connectWatchoutServer()
+      }
+      @end
+
+    // Playground: ace editor + in-browser Tim engine (tim.wasm, no backend).
+    @javascript
+    {
+      document.addEventListener('DOMContentLoaded', function() {
+        var editor = ace.edit('editor', {
+          theme: 'ace/theme/dfkup',
+          mode: 'ace/mode/dfkup',
+          fontSize: 13.5,
+          tabSize: 2,
+          useSoftTabs: true,
+          showPrintMargin: false,
+          wrap: true,
+          indentedSoftWrap: false,
+          selectionStyle: 'text'
+        })
+
+        var examples = []
+        var exampleScripts = document.querySelectorAll('script[type="text/application+json"]')
+        exampleScripts.forEach(function(el) {
+          try {
+            examples.push(JSON.parse(el.textContent))
+          } catch (e) {}
+        })
+        if (examples.length === 0) {
+          examples.push({ title: 'Blank', source: 'h1: "Hello, Tim!"' })
+        }
+
+        var tabsEl = document.getElementById('exampleTabs')
+        function selectExample(i) {
+          var btns = tabsEl.querySelectorAll('.example-tab')
+          btns.forEach(function(b, j) { b.classList.toggle('active', i === j) })
+          editor.setValue(examples[i].source, -1)
+        }
+        examples.forEach(function(ex, i) {
+          var btn = document.createElement('button')
+          btn.className = 'example-tab' + (i === 0 ? ' active' : '')
+          btn.textContent = ex.title
+          btn.addEventListener('click', function() { selectExample(i) })
+          tabsEl.appendChild(btn)
+        })
+
+        editor.setValue(examples[0].source, -1)
+        editor.focus()
+        editor.commands.addCommand({
+          name: 'runTim',
+          bindKey: { win: 'Ctrl-Enter', mac: 'Command-Enter' },
+          exec: function() { runTim() }
+        })
+
+        var autoCompile = document.getElementById('autoCompile')
+        var compileTimer = 0
+        editor.on('change', function() {
+          if (!autoCompile.checked) return
+          clearTimeout(compileTimer)
+          compileTimer = setTimeout(runTim, 400)
+        })
+
+        var consoleEl = document.getElementById('console')
+        var runBtn = document.getElementById('runBtn')
+        var preview = document.getElementById('preview')
+        var tim = null
+
+        function writeOutput(text) {
+          var line = document.createElement('div')
+          line.className = 'console-line'
+          line.innerHTML = '<span class="console-prompt">></span><span class="console-output">' +
+            String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') +
+            '</span>'
+          consoleEl.appendChild(line)
+          consoleEl.scrollTop = consoleEl.scrollHeight
+        }
+
+        writeOutput('loading tim.wasm ...')
+        runBtn.disabled = true
+        runBtn.style.opacity = '0.5'
+
+        function runTim() {
+          if (!tim) {
+            writeOutput('tim.wasm is still loading ...')
+            return
+          }
+          var t0 = performance.now()
+          var res = tim.renderView(editor.getValue(), '{}', '{}')
+          var ms = (performance.now() - t0).toFixed(1)
+          if (res.code !== 0) {
+            writeOutput('Error (' + ms + ' ms): ' + res.out)
+          } else {
+            preview.srcdoc = res.out
+            writeOutput('ok (' + ms + ' ms, ' + res.out.length + ' chars)')
+          }
+        }
+
+        TimWasm.loadTimUrl('/assets/tim.wasm').then(function(t) {
+          tim = t
+          var v = tim.version()
+          if (v.code === 0) {
+            writeOutput('tim ' + v.out + ' (wasm) ready')
+          } else {
+            writeOutput('version error: ' + v.out)
+          }
+          runBtn.disabled = false
+          runBtn.style.opacity = '1'
+          clearTimeout(compileTimer)
+          runTim()
+        }).catch(function(e) {
+          writeOutput('Could not load /assets/tim.wasm: ' + e)
+        })
+
+        runBtn.addEventListener('click', runTim)
+
+        document.getElementById('clearBtn').addEventListener('click', function() {
+          consoleEl.innerHTML = ''
+          preview.srcdoc = ''
+          writeOutput('ready')
+        })
+
+        var splitter = document.getElementById('splitter')
+        var outputPanel = document.querySelector('.output-panel')
+        var mainContent = document.querySelector('.main-content')
+        var isDragging = false
+
+        splitter.addEventListener('mousedown', function(e) {
+          isDragging = true
+          splitter.classList.add('active')
+          mainContent.classList.add('is-dragging')
+          e.preventDefault()
+        })
+
+        document.addEventListener('mousemove', function(e) {
+          if (!isDragging) return
+          var containerRect = mainContent.getBoundingClientRect()
+          var newWidth = containerRect.right - e.clientX - 2
+          if (newWidth < 200) newWidth = 200
+          if (newWidth > containerRect.width - 300) newWidth = containerRect.width - 300
+          outputPanel.style.width = newWidth + 'px'
+        })
+
+        document.addEventListener('mouseup', function() {
+          if (isDragging) {
+            isDragging = false
+            splitter.classList.remove('active')
+            mainContent.classList.remove('is-dragging')
+          }
+        })
+
+        window.addEventListener('resize', function() {
+          editor.resize()
+        })
+      })
+    }
+    @end

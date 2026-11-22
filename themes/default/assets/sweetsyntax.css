@@ -5,7 +5,9 @@
    Kinds: ident int float tkHex tkOctal tkBinary tkBigInt tkImag char
    string punct comment doc_comment regex. Attrs are language-specific
    identifier/symbol names (e.g. `proc`, `return`, `assign`).
-   Code blocks stay dark islands in both themes (see --booyaka-code-*).
+   Token colors come from the `--booyaka-code-*` tokens in `app.css`,
+   which flip between dark and light values per `html[data-bs-theme]`,
+   so code blocks adapt to the active theme.
    ========================================================================== */
 pre code[class*="language-"] {
   display: block;
@@ -13,14 +15,14 @@ pre code[class*="language-"] {
   padding: 1em;
   background: var(--booyaka-code-bg);
   color: var(--booyaka-code-fg);
-  border: 1px solid var(--booyaka-code-border);
+  /* border: 1px solid var(--booyaka-code-border); */
   border-radius: var(--booyaka-radius-md, 8px);
 }
 
 /* comments */
 pre code .comment,
 pre code .doc_comment {
-  color: #777;
+  color: var(--booyaka-code-comment);
   font-style: italic;
 }
 
@@ -29,7 +31,7 @@ pre code .string,
 pre code .char,
 pre code .regex,
 pre code .heredoc {
-  color: #ff6868;
+  color: var(--booyaka-code-string);
 }
 
 /* numbers */
@@ -40,12 +42,12 @@ pre code .tkOctal,
 pre code .tkBinary,
 pre code .tkBigInt,
 pre code .tkImag {
-  color: #ab875d;
+  color: var(--booyaka-code-number);
 }
 
 /* punctuation / operators */
 pre code .punct {
-  color: #78b0e8;
+  color: var(--booyaka-code-punct);
 }
 
 /* identifiers default to the code foreground */
@@ -126,7 +128,7 @@ pre code .ident.echo,
 pre code .ident.result,
 pre code .ident.iterator,
 pre code .ident.object {
-  color: #ff6868;
+  color: var(--booyaka-code-keyword);
 }
 
 /* Tim Engine: element DSL tag names */
@@ -159,10 +161,71 @@ pre code .code-line::before {
   margin-right: 1.25ch;
   padding-right: 1ch;
   border-right: 1px solid var(--booyaka-code-border);
+  /* the gutter shares the code background: only the divider may show */
+  background: transparent;
   text-align: right;
-  color: #777;
+  color: var(--booyaka-code-comment);
   user-select: none;
 }
 pre code .code-line:empty::after {
   content: " ";
+}
+
+/* click-to-copy button (injected by `UI.initCodeCopy` in app.js) */
+pre:has(> code) {
+  position: relative;
+}
+.code-copy-btn {
+  position: absolute;
+  top: 0.5em;
+  right: 0.5em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2em;
+  height: 2em;
+  padding: 0;
+  background: var(--booyaka-code-bg);
+  color: var(--booyaka-code-fg);
+  border: 1px solid var(--booyaka-code-border);
+  border-radius: 6px;
+  opacity: 0.55;
+  cursor: pointer;
+  transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  z-index: 1;
+}
+.code-copy-btn:hover,
+.code-copy-btn:focus-visible {
+  opacity: 1;
+}
+.code-copy-btn svg {
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+}
+.code-copy-btn.is-copied {
+  opacity: 1;
+  color: var(--booyaka-code-copied);
+  border-color: var(--booyaka-code-copied);
+}
+/* language label (injected by `UI.initCodeCopy` next to the button) */
+.code-lang {
+  position: absolute;
+  top: 0.5em;
+  left: 0.75em;
+  font-size: 0.75em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--booyaka-code-fg);
+  opacity: 0.5;
+  user-select: none;
+  pointer-events: none;
+  z-index: 1;
+}
+@media print {
+  .code-copy-btn,
+  .code-lang {
+    display: none;
+  }
 }

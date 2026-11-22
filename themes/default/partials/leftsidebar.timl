@@ -9,9 +9,9 @@ div.sidebar-navigation.sticky-top.sticky-sidebar
             for $item in items($section["items"]):
               if $this["path"] == $item["url"]:
                 // the current page is active, highlight it in the sidebar
-                li > a.booyaka-active href=toString($this["version"]["path"]) & $item["url"]: $item["title"]
+                li > a.booyaka-active href=url(toString($item["url"]), toString($this["version"]["path"])): $item["title"]
               else:
-                li > a href=toString($this["version"]["path"]) & $item["url"]: $item["title"]
+                li > a href=url(toString($item["url"]), toString($this["version"]["path"])): $item["title"]
     else:
       div.border-1.border-booyaka.rounded-4.p-4 style="border-style: dashed"
         p.lh-sm.mb-0: "No navigation items available."

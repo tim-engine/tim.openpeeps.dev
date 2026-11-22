@@ -55,7 +55,7 @@ div.navbar-container-area.sticky-top.user-select-none
           ul.navbar-nav.ms-auto.mb-2.mb-lg-0
             for $navItem in items($this["config"]["navbar"]):
               li.nav-item.mx-1
-                a.nav-link.fw-medium href=toString($this["version"]["path"]) & $navItem["url"]: $navItem["title"]
+                a.nav-link.fw-medium href=url(toString($navItem["url"]), toString($this["version"]["path"])): $navItem["title"]
 
 div.container-fluid.my-4 style="min-height:calc(100vh - 150px)"
   div.row > div.col-lg-12.col-xl-10.mx-auto > div.row
