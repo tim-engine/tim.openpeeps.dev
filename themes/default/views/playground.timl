@@ -35,12 +35,15 @@ style: """
     line-height: 1.5;
     padding: 12px 14px;
     overflow-y: auto;
+    overscroll-behavior: contain;
     white-space: pre-wrap;
     word-wrap: break-word;
     color: #c0c0c0;
     flex: 1 1 auto;
     min-height: 0;
   }
+
+  .preview-wrap { min-height: 0; }
 
   #preview {
     width: 100%;
@@ -136,7 +139,7 @@ style: """
   .example-tab.active { color: #e0e0e0; border-bottom-color: #4ec9b0; }
 """
 div.col-12 > div.card.mt-3.rounded-top-4.overflow-hidden
-  div.editor-header.d-flex.align-items-center.justify-content-between
+  div.editor-header.d-flex.align-items-center.justify-content-between.user-select-none
     div.d-flex.align-items-center.gap-2
       a.navbar-brand
         img src="https://raw.githubusercontent.com/tim-engine/tim/main/.github/timV2.png"
@@ -157,8 +160,8 @@ div.col-12 > div.card.mt-3.rounded-top-4.overflow-hidden
     div#splitter
     div.d-flex.flex-column.output-panel.overflow-hidden
       div.panel-header: "Output"
-      div.flex-grow-1.overflow-hidden
-        iframe#preview sandbox=""
+      div.flex-grow-1.overflow-hidden.preview-wrap
+        iframe#preview sandbox="allow-scripts"
       div.logs-panel.d-flex.flex-column.overflow-hidden
         div.panel-header: "Logs"
         div.flex-grow-1.overflow-hidden#console
