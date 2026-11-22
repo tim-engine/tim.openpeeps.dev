@@ -148,10 +148,15 @@ body:before {
       }
       @end
 
-    // Playground: ace editor + in-browser Tim engine (tim.wasm, no backend).
+    // Playground: ace editor + in-browser Tim engine (WASM build, no backend).
     @javascript
     {
       document.addEventListener('DOMContentLoaded', function() {
+        // Single rename point for versioned WASM builds
+        // (e.g. tim.0.2.11-2211.wasm).
+        var TIM_WASM_FILE = 'tim.0.2.11-2211.wasm'
+        var TIM_WASM_URL = '/assets/' + TIM_WASM_FILE
+
         var editor = ace.edit('editor', {
           theme: 'ace/theme/dfkup',
           mode: 'ace/mode/dfkup',
@@ -220,13 +225,13 @@ body:before {
           consoleEl.scrollTop = consoleEl.scrollHeight
         }
 
-        writeOutput('loading tim.wasm ...')
+        writeOutput('loading ' + TIM_WASM_FILE + ' ...')
         runBtn.disabled = true
         runBtn.style.opacity = '0.5'
 
         function runTim() {
           if (!tim) {
-            writeOutput('tim.wasm is still loading ...')
+            writeOutput(TIM_WASM_FILE + ' is still loading ...')
             return
           }
           var t0 = performance.now()
@@ -240,7 +245,7 @@ body:before {
           }
         }
 
-        TimWasm.loadTimUrl('/assets/tim-0.2.11-2211.wasm').then(function(t) {
+        TimWasm.loadTimUrl(TIM_WASM_URL).then(function(t) {
           tim = t
           var v = tim.version()
           if (v.code === 0) {
@@ -253,7 +258,7 @@ body:before {
           clearTimeout(compileTimer)
           runTim()
         }).catch(function(e) {
-          writeOutput('Could not load /assets/tim.wasm: ' + e)
+          writeOutput('Could not load ' + TIM_WASM_URL + ': ' + e)
         })
 
         runBtn.addEventListener('click', runTim)
