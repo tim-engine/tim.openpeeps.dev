@@ -59,7 +59,10 @@ div.px-lg-4.px-2 > div.container-fluid data-view data-page-title=$this["markdown
       // Raw Markdown source of the current page, embedded as JSON in a
       // `<script type="application/json">` element so the "Copy as Markdown"
       // share action can copy it to the clipboard.
-      script type="application/json": toJson({})
+      script type="application/json" data-markdown-source
+        toString({
+          "markdown": $this["markdown"]["markdown_source_json"]
+        })
 
       div.page-header.mb-4
         h1.display-6.mt-3.fw-normal: $this["markdown"]["meta"]["title"]

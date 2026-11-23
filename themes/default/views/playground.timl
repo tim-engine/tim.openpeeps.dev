@@ -155,12 +155,11 @@ style: """
   .example-source { display: none; }
 """
 const example1 = """
-// Tim Engine playground - live in your browser via `tim.wasm`
-macro container() =
-  div.container > @statement
 
-macro row() =
-  div.row > @statement
+// read more about Tim macros
+// https://tim.openpeeps.dev/language/macros
+macro container() = div.container > @statement
+macro row() = div.row > @statement
 
 @static for $x in 1..12:
   macro col-lg-{$x} =
@@ -192,9 +191,9 @@ div.col-12 > div.card.mt-3.rounded-top-4.overflow-hidden
       span.brand-text: "Tim Engine"
       span: "Playground"
       div.d-flex.mx-3.gap-3
-        a href="https://github.com/tim-engine/tim": "Tim on GitHub"
-        a href="https://tim.openpeeps.dev": "Documentation"
+        a data-no-spa href="https://tim.openpeeps.dev": "Documentation"
         a href="https://tim-engine.github.io/tim/theindex.html": "API Reference"
+        a href="https://github.com/tim-engine/tim": "GitHub"
     div.d-flex.align-items-center.gap-2
       label.auto-compile
         input type="checkbox" id="autoCompile" checked="checked"

@@ -9,10 +9,14 @@
    which flip between dark and light values per `html[data-bs-theme]`,
    so code blocks adapt to the active theme.
    ========================================================================== */
+pre {
+  position:relative
+}
+
 pre code[class*="language-"] {
   display: block;
   overflow-x: auto;
-  padding: 1em;
+  padding: 1.5em 1em 1em;
   background: var(--booyaka-code-bg);
   color: var(--booyaka-code-fg);
   /* border: 1px solid var(--booyaka-code-border); */

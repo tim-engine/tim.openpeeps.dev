@@ -629,6 +629,11 @@ mark {
   right: var(--booyaka-space-4);
 }
 
+/* Opened dropdown menus paint above sticky content (navbar, sidebars). */
+.dropdown-menu.show {
+  z-index: 1030;
+}
+
 /* Backend code highlighting lives in `sweetsyntax.css`
    (SweetSyntax token classes, theme-adaptive). */
 

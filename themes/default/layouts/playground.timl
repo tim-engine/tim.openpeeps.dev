@@ -70,42 +70,11 @@ body:before {
           a href="https://openpeeps.dev": "OpenPeeps"
         p.mb-0: $this["currentYear"] & " &copy; OpenPeeps & Contributors | AGPLv3 License"
 
-    script type="text/javascript" src="/assets/app.js"
     script src="https://cdn.jsdelivr.net/npm/ace-builds@1.36.2/src-noconflict/ace.js"
     script type="text/javascript" src="/assets/tim.js"
     script type="text/javascript" src="/assets/mode-tim.js"
     script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ace-builds@1.36.2/src-noconflict/mode-html.js"
     script type="text/javascript" src="/assets/theme-tim.js"
-
-    if $this["config"]["content"]["lazyload_iframes"] or
-       $this["config"]["content"]["lazyload_videos"] or
-       $this["config"]["content"]["lazyload_images"]:
-      @javascript
-      {
-        UI.onReload(() => {
-          const lazyMedia = document.querySelectorAll('iframe[data-src], video[data-src], audio[data-src], source[data-src], img[data-src]');
-          const loadMedia = (el) => {
-            setTimeout(() => {
-              el.src = el.dataset.src;
-              el.removeAttribute('data-src');
-            }, 150);
-          };
-          if ('IntersectionObserver' in window) {
-            const observer = new IntersectionObserver((entries, obs) => {
-              entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                  loadMedia(entry.target);
-                  obs.unobserve(entry.target);
-                }
-              });
-            }, { rootMargin: '200px' });
-            lazyMedia.forEach(el => observer.observe(el));
-          } else {
-            lazyMedia.forEach(loadMedia);
-          }
-        });
-      }
-      @end
 
     // Connects to the Watchout server to listen
     // for file changes and reloads the page when a change is detected.
@@ -154,7 +123,6 @@ body:before {
     {
       document.addEventListener('DOMContentLoaded', function() {
         // Single rename point for versioned WASM builds
-        // (e.g. tim.0.2.11-2211.wasm).
         var TIM_WASM_FILE = 'tim.0.2.12-2311.wasm'
         var TIM_WASM_URL = '/assets/' + TIM_WASM_FILE
 

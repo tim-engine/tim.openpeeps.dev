@@ -93,9 +93,13 @@ const UI = {
     }.bind(this) // bind 'this' to ensure the correct context inside the callback
 
     // Intercept clicks on internal links to enable SPA-like navigation without full page reloads.
+    // Marked links/regions (`data-no-spa`) and opted-out pages (`<html data-no-spa>`)
+    // always fall through to a full page load.
     let sidebarNavigation = document.querySelector('.sidebar-navigation')
     document.addEventListener('click', (e) => {
       const a = e.target.closest('a');
+      if (a && a.closest('[data-no-spa]')) return;
+      if (document.documentElement.hasAttribute('data-no-spa')) return;
       if (a &&  a.href &&  a.origin === location.origin && !a.hasAttribute('download') && 
         !a.target &&  !a.href.startsWith('mailto:') &&  !a.href.startsWith('tel:') && !a.getAttribute('href').startsWith('#')) {
         e.preventDefault();
@@ -415,8 +419,19 @@ const UI = {
         e.preventDefault();
         const script = document.querySelector('script[data-markdown-source]');
         if (script) {
+          // Payload shape: {"markdown": "<raw markdown source>"}. The key
+          // arrives JSON-encoded (it is embedded pre-encoded), so unwrap
+          // it when possible; a bare JSON string payload also works.
+          const unwrap = (s) => {
+            try { const v = JSON.parse(s); return typeof v === 'string' ? v : s; }
+            catch (_) { return s; }
+          };
           let markdown = '';
-          try { markdown = JSON.parse(script.textContent); } catch (err) { markdown = ''; }
+          try {
+            const parsed = JSON.parse(script.textContent);
+            if (parsed && typeof parsed.markdown === 'string') markdown = unwrap(parsed.markdown);
+            else if (typeof parsed === 'string') markdown = parsed;
+          } catch (err) { markdown = ''; }
           this.copyTextToClipboard(markdown);
           this.flashCopied(copyMarkdownItem);
         }
@@ -617,6 +632,12 @@ const UI = {
         // parse the returned HTML and extract the new view
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
+        // The target page opted out of SPA swapping (`<html data-no-spa>`):
+        // load it fully instead of swapping containers.
+        if (doc.documentElement && doc.documentElement.hasAttribute('data-no-spa')) {
+          location.href = url;
+          return;
+        }
         const newView = doc.querySelector('[data-view]');
         const currentView = document.querySelector('[data-view]');
         const newToc = doc.querySelector('[data-view-right]');
@@ -742,8 +763,22 @@ const UI = {
    * actions can flash their inline "Copied!" feedback; navigation
    * swaps the content (and the menu with it) anyway. Delegated on
    * `document` so SPA swaps keep working without re-binding.
+   *
+   * Without Popper, Bootstrap positions menus purely from CSS, but only
+   * when they carry `data-bs-popper` (otherwise the menu renders in-flow,
+   * next to the toggle instead of below it). That attribute is stamped
+   * here so no template change is needed; it re-runs after every SPA
+   * swap through `UI.onReload`.
    */
   initDropdowns: function() {
+    const markStaticMenus = () => {
+      document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(toggle => {
+        const menu = toggle.parentElement ? toggle.parentElement.querySelector('.dropdown-menu') : null;
+        if (menu) menu.setAttribute('data-bs-popper', 'static');
+      });
+    };
+    this.onReload(markStaticMenus);
+    markStaticMenus();
     const closeAll = (except) => {
       document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(toggle => {
         if (toggle === except) return;
