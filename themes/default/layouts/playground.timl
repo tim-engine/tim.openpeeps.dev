@@ -170,11 +170,11 @@ body:before {
         })
 
         var examples = []
-        var exampleScripts = document.querySelectorAll('script[type="text/application+json"]')
-        exampleScripts.forEach(function(el) {
-          try {
-            examples.push(JSON.parse(el.textContent))
-          } catch (e) {}
+        document.querySelectorAll('.example-source').forEach(function(el) {
+          var src = el.textContent.replace(/^\n+|\n+$/g, '')
+          if (src.length > 0) {
+            examples.push({ title: el.dataset.title || el.id, source: src })
+          }
         })
         if (examples.length === 0) {
           examples.push({ title: 'Blank', source: 'h1: "Hello, Tim!"' })
