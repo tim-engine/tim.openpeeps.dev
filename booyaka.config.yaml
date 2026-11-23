@@ -72,7 +72,7 @@ routes:
 
 assets:
   bundle: true
-  css: ["app.css", "sweetsyntax.css", "style.css"]
+  css: ["bootstrap.min.css", "app.css", "sweetsyntax.css", "style.css"]
   js: ["app.js"]
   mangle: false
   sourcemap: false

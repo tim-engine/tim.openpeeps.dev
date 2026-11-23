@@ -31,10 +31,7 @@ html data-bs-theme="dark" data-theme-default=$themeDefault
     }
     @end
     link rel="icon" href="/assets/favicon-32x32.png" type="image/x-icon"
-    link rel="stylesheet" href="/assets/bootstrap.min.css"
-    link rel="stylesheet" href="/assets/app.css"
-    link rel="stylesheet" href="/assets/sweetsyntax.css"
-    link rel="stylesheet" href="/assets/style.css"
+    link rel="stylesheet" href="/assets/bundle.css"
     link rel="stylesheet" href="/assets/print.css" media="print"
 
     const bgNoise = toFloat($this["config"]["appearance"]["background_noise_opacity"])

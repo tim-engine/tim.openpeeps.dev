@@ -32,7 +32,6 @@ html data-bs-theme="dark" data-theme-default=$themeDefault data-base-path=$baseP
     }
     @end
     link rel="icon" href=$basePath & "/assets/favicon-32x32.png" type="image/x-icon"
-    link rel="stylesheet" href=$basePath & "/assets/bootstrap.min.css"
     // Bundled stylesheet in production builds (and release `start`);
     // individual files in dev so edits are visible without a rebuild.
     // `print.css` always stays separate (`media="print"` would not
