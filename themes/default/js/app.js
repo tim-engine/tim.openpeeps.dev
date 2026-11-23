@@ -790,6 +790,19 @@ const UI = {
     document.addEventListener('click', (e) => {
       const toggle = e.target.closest('[data-bs-toggle="dropdown"]');
       if (!toggle) {
+        // Clicking a menu item closes the menu. Copy actions flash
+        // "Copied!" first (see `flashCopied`), so their menu closes
+        // after that feedback instead of instantly.
+        const menuItem = e.target.closest('.dropdown-menu a, .dropdown-menu button');
+        if (menuItem) {
+          if (menuItem.closest('[data-share="copy-url"], [data-share="copy-markdown"]')) {
+            const openMenu = menuItem.closest('.dropdown-menu');
+            setTimeout(() => { if (openMenu) openMenu.classList.remove('show'); }, 1200);
+          } else {
+            closeAll();
+          }
+          return;
+        }
         if (!e.target.closest('.dropdown-menu')) closeAll();
         return;
       }

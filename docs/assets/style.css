@@ -1,0 +1,5 @@
+/* A blank Booyaka theme. Customize this file, not the generated copy in cache/. */
+.navbar-brand em {
+  height: 30px;
+  width: 100%;
+}
