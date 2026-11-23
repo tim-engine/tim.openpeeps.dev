@@ -24,10 +24,9 @@ div.px-lg-4.px-2 > div.container-fluid data-view data-page-title=$this["markdown
       div.col-6 > h6.my-0: $this["markdown"]["section"]
       div.col-6.text-end
         div.btn-group
-          button type="button" aria-label="Share this page" class="btn btn-secondary btn-sm border-end rounded-start-3 d-flex align-items-center"
-            span.ms-1: "Share page"
-          button type="button" aria-label="Open share options" class="btn btn-secondary btn-sm dropdown-toggle dropdown-toggle-split rounded-end-3" data-bs-toggle="dropdown" aria-expanded="false"
-            span class="visually-hidden": "Toggle Dropdown"
+          // Single dropdown button (label + caret): toggles the menu below.
+          // The `.btn-group` wrapper stays as the positioned anchor for it.
+          button type="button" aria-label="Share this page" class="btn btn-secondary btn-sm dropdown-toggle rounded-3 d-flex align-items-center gap-1" data-bs-toggle="dropdown" aria-expanded="false": "Share page"
           ul.dropdown-menu.dropdown-menu-sm.dropdown-menu-end.rounded-4.shadow-lg style="font-size:0.85em"
             li
               a.dropdown-item.d-flex.align-items-center.gap-2 data-share="copy-url"

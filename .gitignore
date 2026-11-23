@@ -2,3 +2,5 @@
 /_build
 booyaka.db
 booyaka.search.db
+docs/assets/app.css
+docs/assets/bootstrap.min.css
