@@ -74,6 +74,7 @@ body:before {
     script src="https://cdn.jsdelivr.net/npm/ace-builds@1.36.2/src-noconflict/ace.js"
     script type="text/javascript" src="/assets/tim.js"
     script type="text/javascript" src="/assets/mode-tim.js"
+    script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ace-builds@1.36.2/src-noconflict/mode-html.js"
     script type="text/javascript" src="/assets/theme-tim.js"
 
     if $this["config"]["content"]["lazyload_iframes"] or
@@ -154,7 +155,7 @@ body:before {
       document.addEventListener('DOMContentLoaded', function() {
         // Single rename point for versioned WASM builds
         // (e.g. tim.0.2.11-2211.wasm).
-        var TIM_WASM_FILE = 'tim.0.2.11-2211.wasm'
+        var TIM_WASM_FILE = 'tim.0.2.12-2311.wasm'
         var TIM_WASM_URL = '/assets/' + TIM_WASM_FILE
 
         var editor = ace.edit('editor', {
@@ -215,6 +216,36 @@ body:before {
         var preview = document.getElementById('preview')
         var tim = null
 
+        var htmlEditor = ace.edit('htmlOut', {
+          theme: 'ace/theme/dfkup',
+          mode: 'ace/mode/html',
+          fontSize: 12.5,
+          tabSize: 2,
+          useSoftTabs: true,
+          showPrintMargin: false,
+          wrap: true,
+          readOnly: true,
+          highlightActiveLine: false,
+          highlightGutterLine: false,
+          showGutter: false,
+          selectionStyle: 'text'
+        })
+        htmlEditor.session.setUseWorker(false)
+
+        var outputTabs = document.getElementById('outputTabs')
+        function selectOutputView(name) {
+          var btns = outputTabs.querySelectorAll('.example-tab')
+          btns.forEach(function(b) { b.classList.toggle('active', b.dataset.view === name) })
+          var showHtml = name === 'html'
+          preview.classList.toggle('hidden', showHtml)
+          document.getElementById('htmlOut').classList.toggle('visible', showHtml)
+          if (showHtml) htmlEditor.resize()
+        }
+        outputTabs.addEventListener('click', function(e) {
+          var btn = e.target.closest('button')
+          if (btn && btn.dataset.view) selectOutputView(btn.dataset.view)
+        })
+
         function writeOutput(text) {
           var line = document.createElement('div')
           line.className = 'console-line'
@@ -241,6 +272,7 @@ body:before {
             writeOutput('Error (' + ms + ' ms): ' + res.out)
           } else {
             preview.srcdoc = res.out
+            htmlEditor.setValue(res.out, -1)
             writeOutput('ok (' + ms + ' ms, ' + res.out.length + ' chars)')
           }
         }
@@ -266,6 +298,7 @@ body:before {
         document.getElementById('clearBtn').addEventListener('click', function() {
           consoleEl.innerHTML = ''
           preview.srcdoc = ''
+          htmlEditor.setValue('', -1)
           writeOutput('ready')
         })
 
@@ -300,6 +333,7 @@ body:before {
 
         window.addEventListener('resize', function() {
           editor.resize()
+          htmlEditor.resize()
         })
       })
     }
