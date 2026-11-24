@@ -125,6 +125,8 @@
         call(instance.exports.timRenderView, view, partials, data),
       transpile: (src, target, data = '') =>
         call(instance.exports.timTranspile, src, target, data),
+      prettyPrint: (html) =>
+        call(instance.exports.timPrettyPrint, html),
     };
   }
 

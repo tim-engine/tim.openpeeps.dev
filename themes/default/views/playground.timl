@@ -198,6 +198,9 @@ div.col-12 > div.card.mt-3.rounded-top-4.overflow-hidden
       label.auto-compile
         input type="checkbox" id="autoCompile" checked="checked"
         " Auto-compile"
+      label.auto-compile
+        input type="checkbox" id="unminified"
+        " Unminified"
       button#runBtn.btn.btn-danger.py-0.btn-sm.rounded-3: "Compile"
       button#clearBtn.btn.btn-secondary.py-0.btn-sm.rounded-3: "Clear"
   div.d-flex.flex-grow-1.overflow-hidden.main-content style="height:calc(100vh - 90px)"
@@ -208,7 +211,6 @@ div.col-12 > div.card.mt-3.rounded-top-4.overflow-hidden
     div#splitter
     div.d-flex.flex-column.output-panel.overflow-hidden
       div.panel-header.output-bar
-        span: "Output"
         div.example-tabs#outputTabs
           button.example-tab.active data-view="preview": "Preview"
           button.example-tab data-view="html": "HTML"

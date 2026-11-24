@@ -120,7 +120,7 @@ body:before {
     {
       document.addEventListener('DOMContentLoaded', function() {
         // Single rename point for versioned WASM builds
-        var TIM_WASM_FILE = 'tim.0.2.12-2311.wasm'
+        var TIM_WASM_FILE = 'tim.0.2.12-2411.wasm'
         var TIM_WASM_URL = '/assets/' + TIM_WASM_FILE
 
         var editor = ace.edit('editor', {
@@ -180,6 +180,7 @@ body:before {
         var runBtn = document.getElementById('runBtn')
         var preview = document.getElementById('preview')
         var tim = null
+        var lastHtml = ''
 
         var htmlEditor = ace.edit('htmlOut', {
           theme: 'ace/theme/dfkup',
@@ -198,14 +199,33 @@ body:before {
         htmlEditor.session.setUseWorker(false)
 
         var outputTabs = document.getElementById('outputTabs')
+        var unminified = document.getElementById('unminified')
+        var activeView = 'preview'
+        function prettyOf(s) {
+          if (tim && tim.prettyPrint && s) {
+            var r = tim.prettyPrint(s)
+            if (r.code === 0) return r.out
+          }
+          return s
+        }
+        function refreshCodeView() {
+          if (activeView === 'html') {
+            htmlEditor.setValue(unminified.checked ? prettyOf(lastHtml) : lastHtml, -1)
+          }
+        }
         function selectOutputView(name) {
+          activeView = name
           var btns = outputTabs.querySelectorAll('.example-tab')
           btns.forEach(function(b) { b.classList.toggle('active', b.dataset.view === name) })
-          var showHtml = name === 'html'
-          preview.classList.toggle('hidden', showHtml)
-          document.getElementById('htmlOut').classList.toggle('visible', showHtml)
-          if (showHtml) htmlEditor.resize()
+          var showEditor = name !== 'preview'
+          preview.classList.toggle('hidden', showEditor)
+          document.getElementById('htmlOut').classList.toggle('visible', showEditor)
+          if (showEditor) {
+            refreshCodeView()
+            htmlEditor.resize()
+          }
         }
+        unminified.addEventListener('change', refreshCodeView)
         outputTabs.addEventListener('click', function(e) {
           var btn = e.target.closest('button')
           if (btn && btn.dataset.view) selectOutputView(btn.dataset.view)
@@ -237,7 +257,8 @@ body:before {
             writeOutput('Error (' + ms + ' ms): ' + res.out)
           } else {
             preview.srcdoc = res.out
-            htmlEditor.setValue(res.out, -1)
+            lastHtml = res.out
+            refreshCodeView()
             writeOutput('ok (' + ms + ' ms, ' + res.out.length + ' chars)')
           }
         }
@@ -263,7 +284,8 @@ body:before {
         document.getElementById('clearBtn').addEventListener('click', function() {
           consoleEl.innerHTML = ''
           preview.srcdoc = ''
-          htmlEditor.setValue('', -1)
+          lastHtml = ''
+          refreshCodeView()
           writeOutput('ready')
         })
 
